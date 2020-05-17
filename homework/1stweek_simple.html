@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script>
+    function order() {
+      alert('주문이 완료되었습니다');
+    }
+  </script>
+  
+  <title>1주차 과제 | 원페이지 쇼핑몰 만들기 | 노혜람</title>
+
+  <style>
+    .wrap {
+      margin: 10px auto;
+      width: 700px;
+    }
+
+    .photo {
+      text-align: center;
+    }
+
+    .product {
+      font-size: 30px;
+      font-weight: bolder;
+      text-align: center;
+    }
+
+    .retailprice {
+      color: blue;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .discription {
+      color: grey
+    }
+
+    .input-title {
+      margin-top: 50px;
+      font-size: 25px;
+      font-weight: bolder;
+    }
+
+    .input-group {
+      margin-top: 10px;
+    }
+
+
+    .button {
+      margin-top: 20px;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+  </style>
+
+
+
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!--상품디테일 -->
+    <div class="photo">
+      <img src="https://shopjustice.scene7.com/is/image/justiceProdATG/15230688_610" width="350px" height="500px"
+        margin="auto">
+    </div>
+
+    <div class="product">
+      Justice - [Collection X] lace up leggings 특가전
+    </div>
+
+    <div class="retailprice">
+      판매가 : 10,000원/장
+    </div>
+
+    <div class="discription">
+      <p>
+      <div>
+        제가 production 진행했던 스타일 중에 역대급으로 다사다난했던 상품입니다.
+      </div>
+      <div>
+        출고까지 우여곡절이 많았지만, 결과적으로 sales 실적이 좋아서 re-order까지 진행했던 상품인데요,
+      </div>
+      <div>
+        특별히 스파르타 8기분들께만 초저가로 한정판매 진행합니다!!!
+      </div>
+      </p>
+
+      <p>
+      <div>
+        스판함유가 높은 원단을 사용하여 스트레치성이 아주 뛰어난 제품이며, 허리 lace up 디테일이 포인트가 되는 스타일입니다.
+      </div>
+
+      <div>
+        왼쪽 다리 사이드에는 lettering foil print로 고급스러움을 더했는데요,
+        특수 프린트 공법을 사용하여 여러번 세탁 하시더라도 처음과 같은 광택이 유지된답니다.
+      </div>
+
+      </p>
+
+      <p>
+        더 세부적인 디테일은 공식 판매처 링크로 확인 가능하십니다 :) ➔
+        <a class="sitelink" href="https://www.shopjustice.com/lace-up-leggings/prd-15230688#">(클릭)</a>
+      </p>
+
+    </div>
+
+    <!--input항목들 :주문디테일 -->
+    <div class="order">
+
+      <div class="input-title">
+        주문하기
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">주문자 성함</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">사이즈
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+          <option selected>선택</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">주문수량
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+          <option selected>특가 판매이니만큼 1인당 구매 수량을 10장으로 제한합니다.</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">주소</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">전화번호</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+
+      <div class="button">
+        <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+</body>
+
+</html>

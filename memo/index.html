@@ -52,6 +52,50 @@
     </style>
 
     <script>
+        $(document).ready(function () {
+            $('#cards-box').empty();
+            listing();
+        });
+
+        function listing() {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/post",
+                data: {},
+                success: function (response) {
+                    // console.log(response['articles'])
+                    let articles = response['articles']; // list
+
+                    for (let i = 0; i < articles.length; i++) {
+                        // console.log(articles[i])
+                        let article = articles[i]; // dict
+
+                        let comment = article['comment'];
+                        let desc = article['desc'];
+                        let image = article['image'];
+                        let title = article['title'];
+                        let url = article['url'];
+
+                        make_card(comment, desc, image, title, url);
+
+                    }
+                }
+            })
+        }
+
+        function make_card(comment, desc, image, title, url) {
+            let temp_html = `<div class="card">
+                                <img class="card-img-top" src="${image}" alt="Card image cap">
+                                <div class="card-body">
+                                <a href="${url}" target="_blank" class="card-title">${title}</a>
+                                <p class="card-text">${desc}</p>
+                                <p class="card-text comment">${comment}</p>
+                                </div>
+                            </div>`;
+            $('#cards-box').append(temp_html);
+        }
+
+
         function hey() {
             alert('안녕!');
         }
@@ -66,10 +110,7 @@
                 $('#post-box').show();
                 $('#posting-box-btn').text('포스팅박스 닫기');
             }
-
         }
-
-
 
     </script>
 

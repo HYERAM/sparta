@@ -93,13 +93,11 @@
                 data: {},
                 success: function (response) {
                     let dollar = response[1]['rate'];
-                    $("#dollar").append(dollar);
+                    $("#dollar").append(dollar)
                 }
 
             })
-        });
-
-        listing();
+        })
 
         function make_order() {
             let name = $('#name').val();

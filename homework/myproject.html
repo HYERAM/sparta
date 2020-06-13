@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Webpage Title -->
+    <title>오더 현황 알리미 | 시간에 쫓기는 벤더의인생 </title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .insertorder {
+            margin: 10px auto;
+            width: 700px;
+            border: 3px solid rgb(44, 157, 172);
+            border-radius: 7px;
+            padding: 25px;
+        }
+
+        .form-row {
+            margin: auto auto;
+        }
+
+        .addingbttn {
+            margin: auto auto;
+        }
+
+        .tna {}
+
+        .tnatable {
+            width: 400px;
+            color: rgb(33, 127, 139);
+            margin-top: 40px;
+
+        }
+
+        .schedulelists {
+            width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        function openclose() {
+            let status = $('#adding').css('display');
+            if (status == 'block') {
+                $('#adding').hide()
+                $('#adding-box-btn').text('스타일 추가하기')
+            } else {
+                $('#adding').show()
+                $('#adding-box-btn').text('그만 추가하기')
+            }
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="pagetitle">[JUSTICE] Order List</h1>
+        <div class="todaydate" id="todaydate">
+            <p>
+            <h4><span style="color:rgb(44, 157, 172)">TODAY :</span></h4>
+            </p>
+            <p>시간에 쫓기고 일에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. 실업급여 받는 그날까지 TNA를 가지고 놀아보자!</p>
+            <p class="lead">
+                <a id="adding-box-btn" onclick="openclose()" class="btn btn-outline-info btn-lg" href="#"
+                    role="button">스타일
+                    추가하기</a>
+            </p>
+
+            <table class="tnatable">
+                <tbody id="due-box">
+                    <tr>
+                        <td><span style="font-weight: bold">▶FIT APPROVAL DUE : </span></td>
+                        <td>EX-FTY 8주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶QC FILE SENDING DUE : </span></td>
+                        <td>CUT DATE 2주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶CUT DATE : </span></td>
+                        <td>EX-FTY 5주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶TOP SAMPLE SENDING DUE : </span></td>
+                        <td>EX-FTY 2주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶TEST SAMPLE SENDING : </span></td>
+                        <td>EX-FTY 10일 전</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+
+    <div class="insertorder" id="adding" style="display:none">
+        <div class="form-row">
+            <div class="col-md-5 mb-3">
+                <label for="validationCustom01"><span
+                        style="color:rgb(44, 157, 172); font-weight: bold">스타일넘버</span></label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="여섯자리 넘버를 입력하세요" required>
+            </div>
+            <div class="col-md-5 mb-3">
+                <label for="validationCustom02"><span style="color:rgb(44, 157, 172); font-weight: bold">EX-FACTORY
+                        DATE</span></label>
+                <input type="date" class="form-control" id="validationCustom02" placeholder="출고일을 입력하세요" required>
+            </div>
+            <div class="addingbttn">
+                <a class="btn btn-info btn-lg" href="#" role="button"> ADD! </a>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="schedulelists">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="meta_info" scope="col">스타일넘버</th>
+                    <th class="meta_info" scope="col">EX-FTY</th>
+                    <th scope="col"><span style="color: firebrick">SCHEDULE</span></th>
+                    <th scope="col"><span style="color: firebrick">DUE</span></th>
+                </tr>
+            </thead>
+            <tbody id="due-box">
+                <tr>
+                    <td>450271</td>
+                    <td>7/28</td>
+                    <td><span style="color:crimson">TOP SAMPLE DUE</span></td>
+                    <td><span style="color:crimson">7/14</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

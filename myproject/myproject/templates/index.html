@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Webpage Title -->
+    <title>JUSTICE TNA list | 시간에 쫓기는 벤더의인생 </title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Poor Story', cursive;
+        }
+
+        .insertorder {
+            margin: 10px auto;
+            width: 700px;
+            border: 3px solid rgb(44, 157, 172);
+            border-radius: 7px;
+            padding: 25px;
+        }
+
+        .jumbotron {
+            background: linear-gradient(-45deg, rgba(61, 165, 235, 0.8), rgba(246, 255, 0, .8)) fixed, url(https://scontent-ssn1-1.xx.fbcdn.net/v/t1.0-9/95948697_3242782772419092_7395251067379777536_o.jpg?_nc_cat=106&_nc_sid=6e5ad9&_nc_ohc=mxr2DNZ2Nw4AX_lYAz4&_nc_ht=scontent-ssn1-1.xx&oh=8ca27b306c4d7d21c26d5a9d0a00f530&oe=5F156138) fixed;
+            background-size: cover;
+
+        }
+
+        .form-row {
+            margin: auto auto;
+        }
+
+        .addingbttn {
+            margin: auto auto;
+        }
+
+        .tnatable {
+            width: 430px;
+            color: rgb(33, 127, 139);
+            margin-top: 40px;
+
+        }
+
+        .schedulelists {
+            width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+
+    <script>// inputbox 열고닫기
+        function openclose() {
+            let status = $('#adding').css('display');
+            if (status == 'block') {
+                $('#adding').hide()
+                $('#adding-box-btn').text('스타일 추가하기')
+            } else {
+                $('#adding').show()
+                $('#adding-box-btn').text('그만 추가하기')
+            }
+        }
+    </script>
+
+    <script>// 오늘날짜 출력하기
+        $(function () {
+            getTimeStamp();
+        });
+
+        function getTimeStamp() {
+            var d = new Date();
+
+            var date = leadingZeros(d.getFullYear(), 4) + '-' +
+                leadingZeros(d.getMonth() + 1, 2) + '-' +
+                leadingZeros(d.getDate(), 2) + ' ';
+
+            $('#date').val(date);
+        }
+
+        function leadingZeros(n, digits) {
+            var zero = '';
+            n = n.toString();
+
+            if (n.length < digits) {
+                for (i = 0; i < digits - n.length; i++)
+                    zero += '0';
+            }
+            return zero + n;
+        }
+    </script>
+
+    <script> //본격 클라이언트 만들기
+
+        function make_tna() {
+            // 1. 스타일넘버, ex-factory date 내용을 가져오기
+            let s_number = $('#s_number').val();
+            let ex_date = $('#ex_date').val();
+
+
+            // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
+            if (s_number == '') {
+                alert('스타일 넘버를 입력해주세요');
+                $('#s_number').focus();
+                return;
+            } else if (ex_date == '') {
+                alert('ex-factory date를 입력해주세요');
+                $('#ex_date').focus();
+                return;
+            }
+
+            // 3. ex-date기준으로 6가지 tna 계산
+
+            // 4. POST / tna/add 에 저장 요청.
+            $.ajax({
+                type: "POST",
+                url: "/tna/add",
+                data: { s_number_give: s_number, ex_date_give: ex_date },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert(response['msg']);
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+
+
+        // $(document).ready(function () {
+        //     $('#orders-box').html('');
+        //     listing();
+        // });
+
+        // function listing() {
+
+        //     // 1. 서버에 1) GET 방식으로, 2) /tna/list 라는 주소로 tna_list를 요청.
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/tna/list",
+        //         data: {},
+        //         success: function (response) {
+        //             // 2. 서버가 돌려준 tna_list를 tnas라는 변수에 저장합니다.
+        //             let tnas = response['tna_list']
+        //             // 3. for 문을 활용하여 tna 배열의 요소를 차례대로 조회합니다.
+        //             for (let i = 0; i < tnas.length; i++) {
+        //                 let tna = tnas[i]
+        //                 // 4. tna[i] 요소의 s_number, ex_date, schedule, due_date 키 값을 활용하여 값을 조회합니다.
+        //                 let s_number = tna['s_number']
+        //                 let ex_date = tna['ex_date']
+        //                 let schedule = tna['ex_date']
+        //                 let due_date = tna['due_date']
+
+        //                 // 5. tna 리스트 만들기.
+        //                 let temp_html = `<tr>
+        //                                     <td>"${s_number}"</td>
+        //                                     <td>"${ex_date}</td>
+        //                                     <td><span style="color:crimson">"${schedule}"</span></td>
+        //                                     <td><span style="color:crimson">"${due_date}"</span></td>
+        //                                 </tr>`
+
+        //                 // 7. #star-box에 temp_html을 붙입니다.
+        //                 $('#due-box').append(temp_html)
+        //             }
+        //         }
+        //     })
+        // }
+
+// function is_long(obj) {
+//     let content = $(obj).val();
+//     console.log(content);
+//     console.log(content.length);
+//     if (content.length = 5) {
+//         alert('스타일 넘버는 6자리 입니다.');
+//         $(obj).val(content.substring(0, 5));
+//     }
+// }
+
+
+    </script>
+
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="pagetitle">[ JUSTICE ] TNA List</h1>
+        <div class="todaydate" id="todaydate">
+            <div>
+                <label for="date">
+                    <h4><span style="color:rgb(44, 157, 172)">TODAY :</span></h4>
+                </label>
+                <input type="text" id="date">
+            </div>
+
+            <div>
+                <p>시간에 쫓기고 일에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. </p>
+                <p>실업급여 받는 그날까지 TNA를 가지고 놀아보자!</p>
+                <p class="lead">
+                    <a id="adding-box-btn" onclick="openclose()" class="btn btn-outline-info btn-lg" href="#"
+                        role="button">스타일
+                        추가하기</a>
+                </p>
+
+            </div>
+
+            <table class="tnatable">
+                <tbody id="due-box">
+                    <tr>
+                        <td><span style="font-weight: bold">▶FIT APPROVAL DUE : </span></td>
+                        <td>EX-FTY 8주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶THREAD COLOR CFM DUE : </span></td>
+                        <td>QC FILE SENDING 3일 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶QC FILE SENDING DUE : </span></td>
+                        <td>CUT DATE 2주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶CUT DATE : </span></td>
+                        <td>EX-FTY 5주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶TOP SAMPLE SENDING DUE : </span></td>
+                        <td>EX-FTY 2주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶TEST SAMPLE SENDING : </span></td>
+                        <td>EX-FTY 10일 전</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+    <div class="insertorder" id="adding" style="display:none">
+        <div class="form-row">
+            <div class="col-md-5 mb-3">
+                <label for="validationCustom01"><span
+                        style="color:rgb(44, 157, 172); font-weight: bolder">스타일넘버</span></label>
+                <input type="text" class="form-control" id="s_number" placeholder="여섯자리 넘버를 입력하세요" required>
+            </div>
+            <div class="col-md-5 mb-3">
+                <label for="validationCustom02"><span style="color:rgb(44, 157, 172); font-weight: bolder">EX-FACTORY
+                        DATE</span></label>
+                <input type="date" class="form-control" id="ex_date" placeholder="출고일을 입력하세요" required>
+            </div>
+            <div class="addingbttn">
+                <a onclick="make_tna()" onkeyup="is_long(this)" class="btn btn-info btn-lg" href="#" role="button"> ADD!
+                </a>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="schedulelists">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="meta_info" scope="col">스타일넘버</th>
+                    <th class="meta_info" scope="col">EX-FTY</th>
+                    <th scope="col"><span style="color: firebrick">SCHEDULE</span></th>
+                    <th scope="col"><span style="color: firebrick">DUE</span></th>
+                </tr>
+            </thead>
+            <tbody id="due-box">
+                <tr>
+                    <td>450271</td>
+                    <td>7/28</td>
+                    <td><span style="color:crimson">TOP SAMPLE DUE</span></td>
+                    <td><span style="color:crimson">7/14</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

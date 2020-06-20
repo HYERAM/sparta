@@ -40,10 +40,8 @@
             margin: auto auto;
         }
 
-        .tna {}
-
         .tnatable {
-            width: 400px;
+            width: 500px;
             color: rgb(33, 127, 139);
             margin-top: 40px;
 
@@ -56,7 +54,7 @@
         }
     </style>
 
-    <script>
+    <script>// inputbox 열고닫기
         function openclose() {
             let status = $('#adding').css('display');
             if (status == 'block') {
@@ -69,6 +67,33 @@
         }
     </script>
 
+    <script>// 오늘날짜 출력하기
+        $(function () {
+            getTimeStamp();
+        });
+
+        function getTimeStamp() {
+            var d = new Date();
+
+            var date = leadingZeros(d.getFullYear(), 4) + '-' +
+                leadingZeros(d.getMonth() + 1, 2) + '-' +
+                leadingZeros(d.getDate(), 2) + ' ';
+
+            $('#date').val(date);
+        }
+
+        function leadingZeros(n, digits) {
+            var zero = '';
+            n = n.toString();
+
+            if (n.length < digits) {
+                for (i = 0; i < digits - n.length; i++)
+                    zero += '0';
+            }
+            return zero + n;
+        }
+
+    </script>
 
 </head>
 
@@ -76,21 +101,32 @@
     <div class="jumbotron">
         <h1 class="pagetitle">[JUSTICE] Order List</h1>
         <div class="todaydate" id="todaydate">
-            <p>
-            <h4><span style="color:rgb(44, 157, 172)">TODAY :</span></h4>
-            </p>
-            <p>시간에 쫓기고 일에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. 실업급여 받는 그날까지 TNA를 가지고 놀아보자!</p>
-            <p class="lead">
-                <a id="adding-box-btn" onclick="openclose()" class="btn btn-outline-info btn-lg" href="#"
-                    role="button">스타일
-                    추가하기</a>
-            </p>
+            <div>
+                <label for="date">
+                    <h4><span style="color:rgb(44, 157, 172)">TODAY :</span></h4>
+                </label>
+                <input type="text" id="date">
+            </div>
+
+            <div>
+                <p>시간에 쫓기고 일에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. 실업급여 받는 그날까지 TNA를 가지고 놀아보자!</p>
+                <p class="lead">
+                    <a id="adding-box-btn" onclick="openclose()" class="btn btn-outline-info btn-lg" href="#"
+                        role="button">스타일
+                        추가하기</a>
+                </p>
+
+            </div>
 
             <table class="tnatable">
                 <tbody id="due-box">
                     <tr>
                         <td><span style="font-weight: bold">▶FIT APPROVAL DUE : </span></td>
                         <td>EX-FTY 8주 전</td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold">▶THREAD COLOR CFM DUE : </span></td>
+                        <td>QC FILE SENDING 1주 전</td>
                     </tr>
                     <tr>
                         <td><span style="font-weight: bold">▶QC FILE SENDING DUE : </span></td>
@@ -111,9 +147,10 @@
                 </tbody>
             </table>
 
-
         </div>
     </div>
+
+
 
     <div class="insertorder" id="adding" style="display:none">
         <div class="form-row">

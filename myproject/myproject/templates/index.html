@@ -22,6 +22,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
 
     <style>
@@ -55,11 +58,10 @@
             width: 430px;
             color: rgb(33, 127, 139);
             margin-top: 40px;
-
         }
 
         .schedulelists {
-            width: 1200px;
+            width: cover;
             margin: auto;
             text-align: center;
         }
@@ -112,7 +114,6 @@
             let s_number = $('#s_number').val();
             let ex_date = $('#ex_date').val();
 
-
             // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
             if (s_number == '') {
                 alert('스타일 넘버를 입력해주세요');
@@ -124,9 +125,7 @@
                 return;
             }
 
-            // 3. ex-date기준으로 6가지 tna 계산
-
-            // 4. POST / tna/add 에 저장 요청.
+            // 3. POST / tna/add 에 저장 요청.
             $.ajax({
                 type: "POST",
                 url: "/tna/add",
@@ -141,44 +140,64 @@
         }
 
 
-        // $(document).ready(function () {
-        //     $('#orders-box').html('');
-        //     listing();
-        // });
+        $(document).ready(function () {
+            $('#orders-box').html('');
+            listing();
+        });
 
-        // function listing() {
+        function listing() {
+            // 1. 서버에 1) GET 방식으로, 2) /tna/list 라는 주소로 tna_list를 요청.
+            $.ajax({
+                type: "GET",
+                url: "/tna/list",
+                data: {},
+                success: function (response) {
+                    // 2. 서버가 돌려준 tna_list를 tnas라는 변수에 저장합니다.
+                    let tnas = response['tna_list']
 
-        //     // 1. 서버에 1) GET 방식으로, 2) /tna/list 라는 주소로 tna_list를 요청.
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "/tna/list",
-        //         data: {},
-        //         success: function (response) {
-        //             // 2. 서버가 돌려준 tna_list를 tnas라는 변수에 저장합니다.
-        //             let tnas = response['tna_list']
-        //             // 3. for 문을 활용하여 tna 배열의 요소를 차례대로 조회합니다.
-        //             for (let i = 0; i < tnas.length; i++) {
-        //                 let tna = tnas[i]
-        //                 // 4. tna[i] 요소의 s_number, ex_date, schedule, due_date 키 값을 활용하여 값을 조회합니다.
-        //                 let s_number = tna['s_number']
-        //                 let ex_date = tna['ex_date']
-        //                 let schedule = tna['ex_date']
-        //                 let due_date = tna['due_date']
+                    // 3. for 문을 활용하여 tna 배열의 요소를 차례대로 조회합니다.
+                    for (let i = 0; i < tnas.length; i++) {
+                        let tna = tnas[i]
+                        // 4. tna[i] 요소의 s_number, ex_date, schedule, due_date 키 값을 활용하여 값을 조회합니다.
+                        let s_number = tna['s_number']
+                        let ex_date = tna['ex_date']
+                        let schedule = tna['schedule']
+                        let due_date = tna['due_date']
 
-        //                 // 5. tna 리스트 만들기.
-        //                 let temp_html = `<tr>
-        //                                     <td>"${s_number}"</td>
-        //                                     <td>"${ex_date}</td>
-        //                                     <td><span style="color:crimson">"${schedule}"</span></td>
-        //                                     <td><span style="color:crimson">"${due_date}"</span></td>
-        //                                 </tr>`
+                        // 5. tna 리스트 만들기.
+                        let temp_html = `<tr>
+                                            <td>S#${s_number}</td>
+                                            <td>${moment(ex_date).format('M/D')} X</td>
+                                            <td><span style="color:crimson">${schedule}</span></td>
+                                            <td><span style="color:crimson">${moment(due_date).format('M/D/YY')}</span></td>
+                                            <td><a href="#" onclick="delete_tna('${s_number, schedule}')" ><span style="color:limegreen">✔</span></td></a>
+                                        </tr>`
 
-        //                 // 7. #star-box에 temp_html을 붙입니다.
-        //                 $('#due-box').append(temp_html)
-        //             }
-        //         }
-        //     })
-        // }
+                        // 6. #star-box에 temp_html을 붙입니다.
+                        $('#due-box').append(temp_html)
+
+                    }
+                }
+            })
+        }
+
+        function delete_tna(s_number, schedule) {
+            // 1. 서버에 1) POST 방식으로, 2) /tna/finish 라는 url에, 3) s_number_give라는 이름으로 s_number을, schedule_give라는 이름으로 schedule을 전달합니다.
+            // 참고) POST 방식이므로 data: {'schedule_give': schedule} 과 같은 양식
+            $.ajax({
+                type: "POST",
+                url: "/tna/finish",
+                data: { s_number_give: s_number, schedule_give: 'schedule' },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. 삭제 완료 얼럿을 띄웁니다.
+                        alert('삭제 완료! 정말 완료한거지요? 수고하셨습니다!👏')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.reload()
+                    }
+                }
+            });
+        }
 
 // function is_long(obj) {
 //     let content = $(obj).val();
@@ -189,7 +208,6 @@
 //         $(obj).val(content.substring(0, 5));
 //     }
 // }
-
 
     </script>
 
@@ -207,7 +225,7 @@
             </div>
 
             <div>
-                <p>시간에 쫓기고 일에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. </p>
+                <p>시간에 쫓기고 양에 치이는 벤더의 인생ㅠㅠ 봉제탈출을 꿈꾸며.. </p>
                 <p>실업급여 받는 그날까지 TNA를 가지고 놀아보자!</p>
                 <p class="lead">
                     <a id="adding-box-btn" onclick="openclose()" class="btn btn-outline-info btn-lg" href="#"
@@ -218,7 +236,7 @@
             </div>
 
             <table class="tnatable">
-                <tbody id="due-box">
+                <tbody id="due-list">
                     <tr>
                         <td><span style="font-weight: bold">▶FIT APPROVAL DUE : </span></td>
                         <td>EX-FTY 8주 전</td>
@@ -249,8 +267,6 @@
         </div>
     </div>
 
-
-
     <div class="insertorder" id="adding" style="display:none">
         <div class="form-row">
             <div class="col-md-5 mb-3">
@@ -280,15 +296,11 @@
                     <th class="meta_info" scope="col">EX-FTY</th>
                     <th scope="col"><span style="color: firebrick">SCHEDULE</span></th>
                     <th scope="col"><span style="color: firebrick">DUE</span></th>
+                    <th scope="col"><span style="color: limegreen">지우기</span></th>
                 </tr>
             </thead>
             <tbody id="due-box">
-                <tr>
-                    <td>450271</td>
-                    <td>7/28</td>
-                    <td><span style="color:crimson">TOP SAMPLE DUE</span></td>
-                    <td><span style="color:crimson">7/14</span></td>
-                </tr>
+
             </tbody>
         </table>
     </div>

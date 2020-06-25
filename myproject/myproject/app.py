@@ -21,7 +21,7 @@ def home():
 @app.route('/tna/list', methods=['GET']) #스케쥴을 찾아 돌려준다.
 def tna_list():
     # 1. tna 전체 목록을 검색. id 제외하고 date가 빠른 순으로 정렬하기.
-    tna = list(db.justice_tna.find({},{'_id':False})) ## .sort() 부분 정리필요
+    tna = list(db.justice_tna.find({},{'_id':False}).sort('due_date',1)) ## .sort() 부분 정리필요
     # 2. 성공하면 success 메시지와 함께 tna 목록을 클라이언트에 전달.
     return jsonify({'result': 'success','tna_list':tna})
 
@@ -34,40 +34,77 @@ def add_tna():
     ex_date_receive = request.form['ex_date_give']
 
     # 입력한 ex_date 기준으로 due 계산하기
+    # 하나의 input으로 6가지 db를 저장해야하는데...
+    # justice_tna에 tna 저장하기
     ExDate = datetime.strptime(ex_date_receive,'%Y-%m-%d')
 
     fit_due_receive = ExDate + timedelta(weeks=-8)
-    thread_due_receive = ExDate + timedelta(days=-52)
-    qc_due_receive = ExDate + timedelta(weeks=-7)
-    cut_date_receive = ExDate + timedelta(weeks=-5)
-    top_due_receive = ExDate + timedelta(weeks=-2)
-    test_due_receive = ExDate + timedelta(days=-10)
-
-    # 하나의 input으로 6가지 db를 저장해야하는데...
-
-
-    # DB에 삽입할 tna 만들기
-    tna = {
-       's_number': s_number_receive,
-       'ex_date': ex_date_receive,
-       'fit_due' : fit_due_receive,
-       'thread_due' : thread_due_receive,
-       'qc_due' : qc_due_receive,
-       'cut_date': cut_date_receive,
-       'top_due' : top_due_receive,
-       'test_due' : test_due_receive
+    tna1 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'FIT APPROVAL DUE',
+    'due_date' : fit_due_receive
     }
+    db.justice_tna.insert_one(tna1)
 
-    # justice_tna에 tna 저장하기
-    db.justice_tna.insert_one(tna)
+    thread_due_receive = ExDate + timedelta(days=-52)
+    tna2 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'THREAD COLOR CFM DUE',
+    'due_date' : thread_due_receive
+    }
+    db.justice_tna.insert_one(tna2)
+
+    qc_due_receive = ExDate + timedelta(weeks=-7)
+    tna3 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'QC FILE SENDING DUE',
+    'due_date' : qc_due_receive
+    } 
+    db.justice_tna.insert_one(tna3)
+
+    cut_date_receive = ExDate + timedelta(weeks=-5)
+    tna4 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'CUT DATE',
+    'due_date' : cut_date_receive
+    } 
+    db.justice_tna.insert_one(tna4)    
+
+    top_due_receive = ExDate + timedelta(weeks=-2)
+    tna5 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'TOP SAMPLE SENDING DUE',
+    'due_date' : top_due_receive
+    } 
+    db.justice_tna.insert_one(tna5)
+
+    test_due_receive = ExDate + timedelta(days=-10)
+    tna6 = {
+    's_number': s_number_receive,
+    'ex_date': ex_date_receive,
+    'schedule' : 'TEST SAMPLE SENDING',
+    'due_date' : test_due_receive
+    } 
+    db.justice_tna.insert_one(tna6)
+    
     # 성공 여부 & 성공 메시지 반환
     return jsonify({'result': 'success', 'msg': 'tna가 성공적으로 추가되었습니다.'})
 
-    
+@app.route('/tna/finish', methods=['POST']) #스타일 넘버, 스케쥴(due)을 받아와서 삭제 후 성공 메시지를 돌려 준다.
+def delete_tna():
+    # 1. 클라이언트가 전달한 name_give를 name_receive 변수에 넣습니다.
+    s_number_receive = request.form['s_number_give']
+    schedule_receive = request.form['schedule_give']
 
-# @app.route('/tna/finish', methods=['POST']) #스타일 넘버, 스케쥴(due)을 받아와서 삭제 후 성공 메시지를 돌려 준다.
-# def delete_tna():
-    
+    # 2. mystar 목록에서 delete_one으로 s_number & schedule이 s_number_receive & schedule_receive와 일치하는 항목을 제거합니다.
+    db.justice_tna.delete_one({'s_number':s_number_receive, 'schedule':schedule_receive})
+    # 3. 성공하면 success 메시지를 반환합니다.
+    return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

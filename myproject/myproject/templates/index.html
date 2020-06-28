@@ -9,6 +9,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="JUSTICE TNA list | 시간에 쫓기는 벤더의인생" />
+    <meta property="og:description" content="납기를 입력하면 TNA가 자동계산됩니다🤟" />
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.jpg') }}" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -170,7 +173,7 @@
                                             <td>${moment(ex_date).format('M/D')} X</td>
                                             <td><span style="color:crimson">${schedule}</span></td>
                                             <td><span style="color:crimson">${moment(due_date).format('M/D/YY')}</span></td>
-                                            <td><a href="#" onclick="delete_tna('${s_number, schedule}')" ><span style="color:limegreen">✔</span></td></a>
+                                            <td><a href="#" onclick="delete_tna('${s_number}', '${schedule}')" ><span style="color:limegreen">✔</span></td></a>
                                         </tr>`
 
                         // 6. #star-box에 temp_html을 붙입니다.
@@ -187,7 +190,7 @@
             $.ajax({
                 type: "POST",
                 url: "/tna/finish",
-                data: { s_number_give: s_number, schedule_give: 'schedule' },
+                data: { 's_number_give': s_number, 'schedule_give': schedule },
                 success: function (response) {
                     if (response['result'] == 'success') {
                         // 2. 삭제 완료 얼럿을 띄웁니다.
@@ -199,15 +202,6 @@
             });
         }
 
-// function is_long(obj) {
-//     let content = $(obj).val();
-//     console.log(content);
-//     console.log(content.length);
-//     if (content.length = 5) {
-//         alert('스타일 넘버는 6자리 입니다.');
-//         $(obj).val(content.substring(0, 5));
-//     }
-// }
 
     </script>
 
